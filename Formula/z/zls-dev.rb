@@ -12,7 +12,12 @@ class ZlsDev < Formula
     end
   else
     os = "linux"
-    sha256 "3bde2ce9e0d1db5ca76e306bd5bf0c7ab2a9c3290facc0990c5f7fccac11c699" # x86_64-linux
+    if Hardware::CPU.intel?
+      sha256 "3bde2ce9e0d1db5ca76e306bd5bf0c7ab2a9c3290facc0990c5f7fccac11c699" # x86_64-linux
+    else
+      arch = "aarch64"
+      sha256 "0856842d4e9e50cb01a9828984136caf5b413f7fdc759f87c06acc816159e0dd" # aarch64-linux
+    end
   end
 
   desc "Development build of the ZLS language server for Zig"
@@ -20,7 +25,6 @@ class ZlsDev < Formula
   url "https://builds.zigtools.org/zls-#{arch}-#{os}-0.18.0-dev.27+25df3a30.tar.xz"
   version "0.18.0-dev.27+25df3a30"
   license "MIT"
-  head "https://github.com/zigtools/zls.git", branch: "master"
 
   livecheck do
     skip "Dynamic `url` and `sha256`"

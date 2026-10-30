@@ -1,0 +1,29 @@
+name: Update zig-dev & zls-dev
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+jobs:
+  update:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v6
+
+      - name: Configure Git user
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Update formulae
+        run: scripts/update.sh zig-dev zls-dev
+
+      - name: Push changes
+        run: |
+          # update.sh commits per formula when something changed;
+          # pushing with no new commits is a no-op
+          git push origin HEAD:main

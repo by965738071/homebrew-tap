@@ -12,7 +12,12 @@ class ZigDev < Formula
     end
   else
     os = "linux"
-    sha256 "331b87438f27d76650c9e8526b8460f513d45bbec8e6616349ea30632f2b37a4" # x86_64-linux
+    if Hardware::CPU.intel?
+      sha256 "331b87438f27d76650c9e8526b8460f513d45bbec8e6616349ea30632f2b37a4" # x86_64-linux
+    else
+      arch = "aarch64"
+      sha256 "5c93d84ed31f34d0cf6187500530fa09ec0f79316732735c860f4c69a19cee10" # aarch64-linux
+    end
   end
 
   desc "Development build of the Zig programming language"
